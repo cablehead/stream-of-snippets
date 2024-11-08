@@ -20,7 +20,7 @@ const App: Component = () => {
 
   return (
     <div>
-      <h1>a solid clipboard</h1>
+      <h1>a stream of snippets</h1>
       <For each={index()}>
         {(frames) => <Card frames={frames} CAS={CAS} />}
       </For>

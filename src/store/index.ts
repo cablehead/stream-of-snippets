@@ -15,7 +15,7 @@ export function useStore({ dataSignal }: StreamProps) {
     const frame = dataSignal();
     if (!frame) return;
 
-    if (frame.topic !== "pb.recv" && frame.topic !== "content") return;
+    if (frame.topic !== "snippet") return;
 
     const frameId = frame.meta?.updates ?? frame.id;
     setFrames(frameId, (existingFrames = []) => [frame, ...existingFrames]);

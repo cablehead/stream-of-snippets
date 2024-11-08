@@ -1,5 +1,21 @@
 import { Component, createMemo, createSignal, For, Show } from "solid-js";
 import { styled } from "solid-styled-components";
+
+import { Scru128Id } from "scru128";
+import { formatRelative } from "date-fns";
+
+import { marked } from "marked";
+import hljs from "highlight.js";
+import "highlight.js/styles/github.css"; // Choose a theme (e.g., github.css, dark.css, etc.)
+
+marked.setOptions({
+  highlight: (code, lang) => {
+		console.log("HERE", code, lang);
+    // If a language is specified, use it; otherwise, use automatic language detection
+    return lang ? hljs.highlight(code, { language: lang }).value : hljs.highlightAuto(code).value;
+  }
+});
+
 import { Frame } from "./store/stream";
 import { CASStore } from "./store/cas";
 
@@ -25,7 +41,7 @@ const Meta = styled("div")`
   padding: 0.5em 1em;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: end;
 `;
 
 type CardProps = {
@@ -35,68 +51,27 @@ type CardProps = {
 
 const Card: Component<CardProps> = (props) => {
   const { frames, CAS } = props;
-  const [currentIndex, setCurrentIndex] = createSignal(0);
-  const frame = () => frames[currentIndex()];
+  const frame = () => frames[0];
   const contentSignal = () => CAS.get(frame().hash);
 
   const renderContent = () => {
     const content = contentSignal()();
     if (!content) return null;
-
-    if (frame().topic === "pb.recv") {
-      try {
-        const jsonContent = JSON.parse(content);
-        return <pre>{JSON.stringify(jsonContent, null, 2)}</pre>;
-      } catch (error) {
-        console.error("Failed to parse JSON content:", error);
-        return <p>{content}</p>;
-      }
-    } else if (frame().meta?.content_type === "image") {
-      return <img src={`/api/cas/${frame().hash}`} alt="Frame content" />;
-    } else {
-      return <pre>{content}</pre>;
-    }
+    const htmlContent = marked(content);
+    return <div innerHTML={htmlContent} />;
   };
 
-  // Create a reactive derived signal for `source`
-  const source = createMemo(() => {
-    const sourceFrame = frames.find((f) => f.topic === "pb.recv");
-    if (!sourceFrame) return null;
-
-    const sourceContent = CAS.get(sourceFrame.hash)();
-    if (!sourceContent) return null;
-
-    try {
-      const parsedContent = JSON.parse(sourceContent);
-      return parsedContent.source;
-    } catch (error) {
-      console.error("Failed to parse JSON content for source:", error);
-      return null;
-    }
-  });
+  const id = Scru128Id.fromString(frame().id);
+  const stamp = new Date(id.timestamp);
 
   return (
     <CardWrapper>
-      <Meta>
-        <span>{frame().id}</span>
-        <nav>
-          <For each={frames}>
-            {(_, idx) => (
-              <button
-                onClick={() => setCurrentIndex(idx())}
-                style={{ margin: "0 0.25em" }}
-                disabled={currentIndex() === idx()}
-              >
-                {idx()}
-              </button>
-            )}
-          </For>
-        </nav>
-        <Show when={source()}>
-          <span>{source()}</span>
-        </Show>
-      </Meta>
       <Content>{renderContent()}</Content>
+      <Meta>
+        <span>
+          {formatRelative(stamp, new Date())}
+        </span>
+      </Meta>
     </CardWrapper>
   );
 };
