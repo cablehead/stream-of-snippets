@@ -1,9 +1,5 @@
 :root {
-  font-family: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
-    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
-    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
-
-  font-size: 1.2em;
+  font-size: 1em;
   line-height: 1.5;
 
   /* Colors */
@@ -19,7 +15,7 @@
 body {
   margin: 0 auto;
   padding: 1em;
-  max-width: 620px;
+  max-width: 1020px;
   display: flex;
 
   color: var(--color-fg);

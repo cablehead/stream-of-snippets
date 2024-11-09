@@ -1,23 +1,25 @@
 import { Component, createMemo, createSignal, For, Show } from "solid-js";
 import { styled } from "solid-styled-components";
-
 import { Scru128Id } from "scru128";
 import { formatRelative } from "date-fns";
-
-import { marked } from "marked";
+import { Marked } from "marked";
+import { markedHighlight } from "marked-highlight";
 import hljs from "highlight.js";
 import "highlight.js/styles/github.css"; // Choose a theme (e.g., github.css, dark.css, etc.)
 
-marked.setOptions({
-  highlight: (code, lang) => {
-		console.log("HERE", code, lang);
-    // If a language is specified, use it; otherwise, use automatic language detection
-    return lang ? hljs.highlight(code, { language: lang }).value : hljs.highlightAuto(code).value;
-  }
-});
-
 import { Frame } from "./store/stream";
 import { CASStore } from "./store/cas";
+
+// Set up `marked` with `marked-highlight`
+const marked = new Marked(
+  markedHighlight({
+    langPrefix: "hljs language-",
+    highlight(code, lang) {
+      const language = hljs.getLanguage(lang) ? lang : "plaintext";
+      return hljs.highlight(code, { language }).value;
+    },
+  }),
+);
 
 const CardWrapper = styled("div")`
   display: flex;
@@ -25,6 +27,7 @@ const CardWrapper = styled("div")`
   margin-bottom: 1em;
   overflow: hidden;
   border-radius: 0.25em;
+	border: 1px solid var(--color-sub-bg);
 `;
 
 const Content = styled("div")`
@@ -35,7 +38,7 @@ const Content = styled("div")`
 `;
 
 const Meta = styled("div")`
-  font-size: 0.80em;
+  font-size: 0.90em;
   color: var(--color-sub-fg);
   background-color: var(--color-sub-bg);
   padding: 0.5em 1em;
@@ -57,7 +60,7 @@ const Card: Component<CardProps> = (props) => {
   const renderContent = () => {
     const content = contentSignal()();
     if (!content) return null;
-    const htmlContent = marked(content);
+    const htmlContent = marked.parse(content);
     return <div innerHTML={htmlContent} />;
   };
 
@@ -68,9 +71,7 @@ const Card: Component<CardProps> = (props) => {
     <CardWrapper>
       <Content>{renderContent()}</Content>
       <Meta>
-        <span>
-          {formatRelative(stamp, new Date())}
-        </span>
+        <span>{formatRelative(stamp, new Date())}</span>
       </Meta>
     </CardWrapper>
   );
