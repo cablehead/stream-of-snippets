@@ -16,7 +16,7 @@
   --color-accent-rgb: 148, 191, 206;
 }
 
-html[data-theme="dark"] {
+body[data-theme="dark"] {
   --color-fg: #d8dae2;
   --color-bg: #2e3440;
   --color-sub-fg: #9ba0af;
@@ -63,20 +63,6 @@ blockquote {
 
 main {
   width: 100%;
-}
-
-code {
-  background-color: rgba(var(--color-accent-rgb), 0.2);
-  border-radius: 0.25em;
-  padding: 0.25em 0.5em;
-  border: 0.5px solid rgba(var(--color-accent-rgb), 0.7);
-}
-
-pre {
-  background-color: rgba(var(--color-accent-rgb), 0.2);
-  border-radius: 0.25em;
-  padding: 0.5em;
-  border: 0.5px solid rgba(var(--color-accent-rgb), 0.7);
 }
 
 iframe,

@@ -4,6 +4,8 @@ import { useStore } from "./store";
 import { createCAS } from "./store/cas";
 import Card from "./Card";
 
+import { GlobalStyles, prefersDark, toggleTheme } from "./theme";
+
 const App: Component = () => {
   const frameSignal = useFrameStream();
 
@@ -33,7 +35,8 @@ const App: Component = () => {
           a stream of snippets
         </span>
 
-        <div>
+        <div style="cursor: pointer;" onclick={toggleTheme}>
+          <GlobalStyles />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -46,6 +49,7 @@ const App: Component = () => {
             stroke-linejoin="round"
             class="icon icon-tabler
 			icons-tabler-outline icon-tabler-sun"
+            style={!prefersDark() ? "display: none;" : ""}
           >
             <path
               stroke="none"
@@ -70,6 +74,7 @@ const App: Component = () => {
             stroke-linecap="round"
             stroke-linejoin="round"
             class="icon icon-tabler icons-tabler-outline icon-tabler-moon-stars"
+            style={prefersDark() ? "display: none;" : ""}
           >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
