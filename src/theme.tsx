@@ -30,7 +30,7 @@ const [GlobalStyles, setGlobalStyles] = createSignal<JSX.Element>(
 createEffect(() => {
   document.body.dataset.theme = prefersDark() ? "dark" : "light";
   setGlobalStyles(
-    () => (prefersDark() ? DarkGlobalStyles() : LightGlobalStyles())
+    () => (prefersDark() ? DarkGlobalStyles() : LightGlobalStyles()),
   );
 });
 

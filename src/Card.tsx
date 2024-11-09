@@ -65,21 +65,21 @@ type CardProps = {
 const Card: Component<CardProps> = (props) => {
   const { frames, CAS } = props;
   const frame = () => frames[0];
+
   const contentSignal = () => CAS.get(frame().hash);
 
-  const renderContent = () => {
-    const content = contentSignal()();
-    if (!content) return null;
-    const htmlContent = marked.parse(content);
-    return <div innerHTML={htmlContent} />;
-  };
+  const renderContent = () => marked.parse(contentSignal()() || "");
 
   const id = Scru128Id.fromString(frame().id);
   const stamp = new Date(id.timestamp);
 
   return (
     <CardWrapper>
-      <Content>{renderContent()}</Content>
+      <Content>
+        <Show when={renderContent()} keyed>
+          {(content) => <div innerHTML={content as string} />}
+        </Show>
+      </Content>
       <Meta>
         <span>{formatRelative(stamp, new Date())}</span>
       </Meta>
