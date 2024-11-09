@@ -29,6 +29,21 @@ body[data-theme="dark"] {
   --color-accent: rgba(var(--color-accent-rgb));
 }
 
+code:not(.hljs) {
+  background-color: rgba(var(--color-accent-rgb), 0.2);
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
+  border: 0.5px solid rgba(var(--color-accent-rgb), 0.7);
+}
+
+pre {
+  /* background-color: rgba(var(--color-accent-rgb), 0.2); */
+  border-radius: 0.25em;
+  padding: 0.5em;
+  border: 0.5px solid rgba(var(--color-accent-rgb), 0.7);
+}
+
+
 a {
   color: var(--color-accent);
 }
