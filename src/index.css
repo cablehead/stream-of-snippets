@@ -1,5 +1,5 @@
 :root {
-  font-size: 1em;
+  font-size: 1.1em;
   line-height: 1.5;
 
   /* https://github.com/system-fonts/modern-font-stacks#humanist */
@@ -10,37 +10,36 @@
   /* Colors */
   --color-fg: #4e5668;
   --color-bg: #fff;
-  --color-sub-fg: #7d889f;
+  --color-sub-fg: #68604e;
   --color-sub-bg: #eceff4;
-  /* --color-accent: #94bfce; */
-  --color-accent-rgb: 148, 191, 206;
+  --color-accent: #94bfce;
+  --color-shadow: #aaa;
 }
 
 body[data-theme="dark"] {
   --color-fg: #d8dae2;
   --color-bg: #2e3440;
-  --color-sub-fg: #9ba0af;
-  --color-sub-bg: #2a2d36;
-  /* --color-accent: #567c89; */
-  --color-accent-rgb: 86, 124, 137;
+  --color-sub-fg: #e2e0d8;
+  --color-sub-bg: #403a2e;
+  --color-accent: #ae8fab;
+  --color-shadow: #567c89;
 }
 
 :root {
-  --color-accent: rgba(var(--color-accent-rgb));
 }
 
-code:not(div.markdown code) {
-  background-color: rgba(var(--color-accent-rgb), 0.2);
+code:not(pre code) {
+  color: var(--color-sub-fg);
+  background-color: var(--color-sub-bg);
   border-radius: 0.25em;
-  padding: 0.25em 0.5em;
-  border: 0.5px solid rgba(var(--color-accent-rgb), 0.7);
+  padding: 0.1em 0.25em;
 }
 
 pre {
-  /* background-color: rgba(var(--color-accent-rgb), 0.2); */
+  /* background-color: var(--color-accent); */
   border-radius: 0.25em;
   padding: 0.5em;
-  border: 0.5px solid rgba(var(--color-accent-rgb), 0.7);
+  border: 0.5px solid var(--color-shadow);
 }
 
 a {
@@ -48,7 +47,7 @@ a {
 }
 
 a:hover {
-  color: var(--color-fg);
+  color: var(--color-sub-fg);
 }
 
 body {

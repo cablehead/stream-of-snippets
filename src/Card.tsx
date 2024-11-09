@@ -29,8 +29,7 @@ const CardWrapper = styled("div")`
   overflow: hidden;
 
   border-radius: 0.25em;
-	border: 0.5px solid var(--color-accent);
-	box-shadow: 0 0 0.5em rgba(var(--color-accent-rgb), 1);
+	box-shadow: 0 0 0.25em var(--color-shadow);
 	border-left: none;
 	border-right: none;
 
