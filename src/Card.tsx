@@ -1,11 +1,14 @@
 import { Component, createMemo, createSignal, For, Show } from "solid-js";
 import { styled } from "solid-styled-components";
+
 import { Scru128Id } from "scru128";
 import { formatRelative } from "date-fns";
+
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
+
 import hljs from "highlight.js";
-import "highlight.js/styles/github.css"; // Choose a theme (e.g., github.css, dark.css, etc.)
+import "highlight.js/styles/github.css";
 
 import { Frame } from "./store/stream";
 import { CASStore } from "./store/cas";
