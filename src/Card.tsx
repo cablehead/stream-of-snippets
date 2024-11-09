@@ -8,8 +8,9 @@ import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 
 import hljs from "highlight.js";
-// import "highlight.js/styles/github.css";
-import "highlight.js/styles/nord.css";
+
+import "highlight.js/styles/github.css";
+// import "highlight.js/styles/nord.css";
 
 import { Frame } from "./store/stream";
 import { CASStore } from "./store/cas";
@@ -32,7 +33,7 @@ const CardWrapper = styled("div")`
 
   border-radius: 0.25em;
 	border: 0.5px solid var(--color-accent);
-	box-shadow: 0 0 0.25em rgba(var(--color-accent-rgb), 1);
+	box-shadow: 0 0 0.5em rgba(var(--color-accent-rgb), 1);
 	border-left: none;
 	border-right: none;
 

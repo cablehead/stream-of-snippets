@@ -10,22 +10,18 @@
   /* Colors */
   --color-fg: #4e5668;
   --color-bg: #fff;
-
   --color-sub-fg: #7d889f;
   --color-sub-bg: #eceff4;
-
   /* --color-accent: #94bfce; */
   --color-accent-rgb: 148, 191, 206;
 }
 
-:root {
+html[data-theme="dark"] {
   --color-fg: #d8dae2;
   --color-bg: #2e3440;
-
   --color-sub-fg: #9ba0af;
   --color-sub-bg: #2a2d36;
-
-  --color-accent: #567c89;
+  /* --color-accent: #567c89; */
   --color-accent-rgb: 86, 124, 137;
 }
 
