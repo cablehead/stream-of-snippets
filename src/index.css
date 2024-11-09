@@ -2,6 +2,11 @@
   font-size: 1em;
   line-height: 1.5;
 
+	/* https://github.com/system-fonts/modern-font-stacks#humanist */
+  font-family: Seravek, "Gill Sans Nova", Ubuntu, Calibri, "DejaVu Sans",
+    source-sans-pro, sans-serif;
+  font-weight: normal;
+
   /* Colors */
   --color-fg: #4e5668;
   --color-bg: #fff;
@@ -20,6 +25,14 @@ body {
 
   color: var(--color-fg);
   background-color: var(--color-bg);
+}
+
+blockquote {
+  margin: 0;
+  margin-left: 1em;
+  border-left: 0.25em solid var(--color-accent);
+  padding-left: 0.75em;
+  font-style: italic;
 }
 
 main {
