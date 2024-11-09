@@ -74,7 +74,7 @@ const Card: Component<CardProps> = (props) => {
     <CardWrapper>
       <Content>
         <Show when={renderContent()} keyed>
-          {(content) => <div innerHTML={content as string} />}
+          {(content) => <div class="markdown" innerHTML={content as string} />}
         </Show>
       </Content>
       <Meta>
