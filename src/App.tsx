@@ -4,7 +4,7 @@ import { useStore } from "./store";
 import { createCAS } from "./store/cas";
 import Card from "./Card";
 
-import { GlobalStyles, prefersDark, toggleTheme } from "./theme";
+import { prefersDark, toggleTheme } from "./theme";
 
 const App: Component = () => {
   const frameSignal = useFrameStream();
@@ -36,7 +36,6 @@ const App: Component = () => {
         </span>
 
         <div style="cursor: pointer;" onclick={toggleTheme}>
-          <GlobalStyles />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

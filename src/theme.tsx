@@ -1,37 +1,24 @@
-import { createEffect, createSignal, JSX } from "solid-js";
-
-const [prefersDark, setPrefersDark] = createSignal(false);
-const toggleTheme = () => setPrefersDark(!prefersDark());
+import { createEffect, createSignal } from "solid-js";
 
 import githubTheme from "highlight.js/styles/github.css?raw";
 import nordTheme from "highlight.js/styles/nord.css?raw";
 
-import { createGlobalStyles } from "solid-styled-components";
+const [prefersDark, setPrefersDark] = createSignal(false);
+const toggleTheme = () => setPrefersDark(!prefersDark());
 
-const LightGlobalStyles = () => {
-  const Styles = createGlobalStyles(githubTheme);
-  return <Styles />;
+const applyTheme = (css: string) => {
+  let styleTag = document.getElementById("dynamic-theme-style");
+  if (!styleTag) {
+    styleTag = document.createElement("style");
+    styleTag.id = "dynamic-theme-style";
+    document.head.appendChild(styleTag);
+  }
+  styleTag.innerHTML = css;
 };
-
-const DarkGlobalStyles = () => {
-  const Styles = createGlobalStyles`
-    html,
-    body {
-      background-color: blue;
-    }
-  `;
-  return <Styles />;
-};
-
-const [GlobalStyles, setGlobalStyles] = createSignal<JSX.Element>(
-  LightGlobalStyles(),
-);
 
 createEffect(() => {
   document.body.dataset.theme = prefersDark() ? "dark" : "light";
-  setGlobalStyles(
-    () => (prefersDark() ? DarkGlobalStyles() : LightGlobalStyles()),
-  );
+  applyTheme(prefersDark() ? nordTheme : githubTheme);
 });
 
-export { GlobalStyles, prefersDark, toggleTheme };
+export { prefersDark, toggleTheme };

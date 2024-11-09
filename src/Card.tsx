@@ -9,9 +9,6 @@ import { markedHighlight } from "marked-highlight";
 
 import hljs from "highlight.js";
 
-import "highlight.js/styles/github.css";
-// import "highlight.js/styles/nord.css";
-
 import { Frame } from "./store/stream";
 import { CASStore } from "./store/cas";
 
