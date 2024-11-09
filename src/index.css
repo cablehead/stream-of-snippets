@@ -2,7 +2,7 @@
   font-size: 1em;
   line-height: 1.5;
 
-	/* https://github.com/system-fonts/modern-font-stacks#humanist */
+  /* https://github.com/system-fonts/modern-font-stacks#humanist */
   font-family: Seravek, "Gill Sans Nova", Ubuntu, Calibri, "DejaVu Sans",
     source-sans-pro, sans-serif;
   font-weight: normal;
@@ -14,7 +14,31 @@
   --color-sub-fg: #7d889f;
   --color-sub-bg: #eceff4;
 
-  --color-accent: #94bfce;
+  /* --color-accent: #94bfce; */
+  --color-accent-rgb: 148, 191, 206;
+}
+
+:root {
+  --color-fg: #d8dae2;
+  --color-bg: #2e3440;
+
+  --color-sub-fg: #9ba0af;
+  --color-sub-bg: #2a2d36;
+
+  --color-accent: #567c89;
+  --color-accent-rgb: 86, 124, 137;
+}
+
+:root {
+  --color-accent: rgba(var(--color-accent-rgb));
+}
+
+a {
+  color: var(--color-accent);
+}
+
+a:hover {
+  color: var(--color-fg);
 }
 
 body {
@@ -25,6 +49,12 @@ body {
 
   color: var(--color-fg);
   background-color: var(--color-bg);
+}
+
+h1 {
+  font-size: 2em;
+  line-height: 1.25;
+  font-weight: 500;
 }
 
 blockquote {
@@ -39,9 +69,18 @@ main {
   width: 100%;
 }
 
+code {
+  background-color: rgba(var(--color-accent-rgb), 0.2);
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
+  border: 0.5px solid rgba(var(--color-accent-rgb), 0.7);
+}
+
 pre {
-  margin: 0;
-  padding: 0;
+  background-color: rgba(var(--color-accent-rgb), 0.2);
+  border-radius: 0.25em;
+  padding: 0.5em;
+  border: 0.5px solid rgba(var(--color-accent-rgb), 0.7);
 }
 
 iframe,

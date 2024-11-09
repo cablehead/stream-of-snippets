@@ -8,7 +8,8 @@ import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 
 import hljs from "highlight.js";
-import "highlight.js/styles/github.css";
+// import "highlight.js/styles/github.css";
+import "highlight.js/styles/nord.css";
 
 import { Frame } from "./store/stream";
 import { CASStore } from "./store/cas";
@@ -27,10 +28,15 @@ const marked = new Marked(
 const CardWrapper = styled("div")`
   display: flex;
   flex-direction: column;
-  margin-bottom: 1em;
   overflow: hidden;
+
   border-radius: 0.25em;
-	border: 1px solid var(--color-sub-bg);
+	border: 0.5px solid var(--color-accent);
+	box-shadow: 0 0 0.25em rgba(var(--color-accent-rgb), 1);
+	border-left: none;
+	border-right: none;
+
+  margin-bottom: 1em;
 `;
 
 const Content = styled("div")`
@@ -43,7 +49,7 @@ const Content = styled("div")`
 const Meta = styled("div")`
   font-size: 0.90em;
   color: var(--color-sub-fg);
-  background-color: var(--color-sub-bg);
+  background-color: var(--color-accent);
   padding: 0.5em 1em;
   display: flex;
   align-items: center;
