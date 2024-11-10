@@ -1,3 +1,4 @@
 A personal microblog that allows you to share a 'stream of snippets'—fragments of Markdown that you can append from the command line.
 
-<img src="https://github.com/user-attachments/assets/c230a6e6-7dc1-46b0-946e-7851af74403e" width="1024" alt="Description of Image">
+<img width="1024" alt="image" src="https://github.com/user-attachments/assets/d20189c4-3f13-4595-b0b5-b5fdc11cf518">
+
