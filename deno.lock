@@ -2,12 +2,14 @@
   "version": "4",
   "specifiers": {
     "npm:@deno/vite-plugin@1": "1.0.0_vite@5.4.10",
+    "npm:@solid-primitives/media@^2.2.9": "2.2.9_solid-js@1.9.3__seroval@1.1.1",
     "npm:date-fns@^4.1.0": "4.1.0",
     "npm:highlight.js@^11.10.0": "11.10.0",
     "npm:marked-highlight@^2.2.0": "2.2.0_marked@14.1.4",
     "npm:marked@^14.1.4": "14.1.4",
     "npm:scru128@^3.0.6": "3.0.6",
     "npm:solid-js@^1.9.2": "1.9.3_seroval@1.1.1",
+    "npm:solid-primitives@^0.0.1": "0.0.1",
     "npm:solid-styled-components@~0.28.5": "0.28.5_solid-js@1.9.3__seroval@1.1.1_csstype@3.1.3",
     "npm:vite-plugin-solid@^2.10.2": "2.10.2_solid-js@1.9.3__seroval@1.1.1_vite@5.4.10_@babel+core@7.26.0",
     "npm:vite@*": "5.4.10",
@@ -306,6 +308,43 @@
     "@rollup/rollup-win32-x64-msvc@4.24.3": {
       "integrity": "sha512-HGZgRFFYrMrP3TJlq58nR1xy8zHKId25vhmm5S9jETEfDf6xybPxsavFTJaufe2zgOGYJBskGlj49CwtEuFhWQ=="
     },
+    "@solid-primitives/event-listener@2.3.3_solid-js@1.9.3__seroval@1.1.1": {
+      "integrity": "sha512-DAJbl+F0wrFW2xmcV8dKMBhk9QLVLuBSW+TR4JmIfTaObxd13PuL7nqaXnaYKDWOYa6otB00qcCUIGbuIhSUgQ==",
+      "dependencies": [
+        "@solid-primitives/utils",
+        "solid-js"
+      ]
+    },
+    "@solid-primitives/media@2.2.9_solid-js@1.9.3__seroval@1.1.1": {
+      "integrity": "sha512-QUmU62D4/d9YWx/4Dvr/UZasIkIpqNXz7wosA5GLmesRW9XlPa3G5M6uOmTw73SByHNTCw0D6x8bSdtvvLgzvQ==",
+      "dependencies": [
+        "@solid-primitives/event-listener",
+        "@solid-primitives/rootless",
+        "@solid-primitives/static-store",
+        "@solid-primitives/utils",
+        "solid-js"
+      ]
+    },
+    "@solid-primitives/rootless@1.4.5_solid-js@1.9.3__seroval@1.1.1": {
+      "integrity": "sha512-GFJE9GC3ojx0aUKqAUZmQPyU8fOVMtnVNrkdk2yS4kd17WqVSpXpoTmo9CnOwA+PG7FTzdIkogvfLQSLs4lrww==",
+      "dependencies": [
+        "@solid-primitives/utils",
+        "solid-js"
+      ]
+    },
+    "@solid-primitives/static-store@0.0.8_solid-js@1.9.3__seroval@1.1.1": {
+      "integrity": "sha512-ZecE4BqY0oBk0YG00nzaAWO5Mjcny8Fc06CdbXadH9T9lzq/9GefqcSe/5AtdXqjvY/DtJ5C6CkcjPZO0o/eqg==",
+      "dependencies": [
+        "@solid-primitives/utils",
+        "solid-js"
+      ]
+    },
+    "@solid-primitives/utils@6.2.3_solid-js@1.9.3__seroval@1.1.1": {
+      "integrity": "sha512-CqAwKb2T5Vi72+rhebSsqNZ9o67buYRdEJrIFzRXz3U59QqezuuxPsyzTSVCacwS5Pf109VRsgCJQoxKRoECZQ==",
+      "dependencies": [
+        "solid-js"
+      ]
+    },
     "@types/babel__core@7.20.5": {
       "integrity": "sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==",
       "dependencies": [
@@ -549,6 +588,9 @@
         "seroval-plugins"
       ]
     },
+    "solid-primitives@0.0.1": {
+      "integrity": "sha512-ehBfTMDXw8zxv77r1nH/YWKgVHs02gTjMHDkfegeA9W5zgJJip8HNGHD3X0hLLpkvlhNjQA7TkCldzNkD4fJTw=="
+    },
     "solid-refresh@0.6.3_solid-js@1.9.3__seroval@1.1.1": {
       "integrity": "sha512-F3aPsX6hVw9ttm5LYlth8Q15x6MlI/J3Dn+o3EQyRTtTxidepSTwAYdozt01/YA+7ObcciagGEyXIopGZzQtbA==",
       "dependencies": [
@@ -615,12 +657,14 @@
   "workspace": {
     "dependencies": [
       "npm:@deno/vite-plugin@1",
+      "npm:@solid-primitives/media@^2.2.9",
       "npm:date-fns@^4.1.0",
       "npm:highlight.js@^11.10.0",
       "npm:marked-highlight@^2.2.0",
       "npm:marked@^14.1.4",
       "npm:scru128@^3.0.6",
       "npm:solid-js@^1.9.2",
+      "npm:solid-primitives@^0.0.1",
       "npm:solid-styled-components@~0.28.5",
       "npm:vite-plugin-solid@^2.10.2",
       "npm:vite@^5.4.9"

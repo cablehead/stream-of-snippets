@@ -12,12 +12,14 @@
   },
   "imports": {
     "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.0",
+    "@solid-primitives/media": "npm:@solid-primitives/media@^2.2.9",
     "date-fns": "npm:date-fns@^4.1.0",
     "highlight.js": "npm:highlight.js@^11.10.0",
     "marked": "npm:marked@^14.1.4",
     "marked-highlight": "npm:marked-highlight@^2.2.0",
     "scru128": "npm:scru128@^3.0.6",
     "solid-js": "npm:solid-js@^1.9.2",
+    "solid-primitives": "npm:solid-primitives@^0.0.1",
     "solid-styled-components": "npm:solid-styled-components@^0.28.5",
     "vite": "npm:vite@^5.4.9",
     "vite-plugin-solid": "npm:vite-plugin-solid@^2.10.2"
