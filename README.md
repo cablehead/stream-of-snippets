@@ -2,7 +2,7 @@ A personal microblog that allows you to share a 'stream of snippets'—fragments
 
 ## a stream of snippets
 
-![ndyg_httpss mj runiLm-aNGj_c4_httpss mj runs77w_CxW82w_httpss m_75ebe3d6-5711-450d-812e-0a309e067f9d](https://github.com/user-attachments/assets/9f631a69-c017-4b1d-9a8f-774e059e578b)
+![a women projecting a "stream of snippets", notes she's curated, kung fu cartoon styled, seemingly to save the world](https://github.com/user-attachments/assets/9f631a69-c017-4b1d-9a8f-774e059e578b)
 
 ### usage
 
