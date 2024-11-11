@@ -6,7 +6,7 @@ A personal microblog that allows you to share a 'stream of snippets'—fragments
 
 ### usage
 
-This is a lightweight, static SolidJS app that tails an XS event stream. It publishes frames with the topic 'snippet' and displays them as Markdown fragments.
+This is a lightweight, static SolidJS app that tails an [`xs`](https://github.com/cablehead/xs) event stream. It publishes frames with the topic 'snippet' and displays them as Markdown fragments.
 
 https://github.com/user-attachments/assets/fba60beb-c5ae-42ba-97b4-e9564a74b722
 
