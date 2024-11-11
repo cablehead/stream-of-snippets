@@ -8,6 +8,8 @@ A personal microblog that allows you to share a 'stream of snippets'—fragments
 
 This is a lightweight, static SolidJS app that tails an [`xs`](https://github.com/cablehead/xs) event stream. It publishes frames with the topic 'snippet' and displays them as Markdown fragments.
 
+<img width="954" alt="image" src="https://github.com/user-attachments/assets/963b3fac-2eb3-411f-a88f-87635958bf5b">
+
 <pre>
 http://your-stream-of-snippets...
 ┌───────────────────────────────────────────────────┐
@@ -43,8 +45,6 @@ $ bp | bat -l md
    7   │ Where `bp` is the current contents of my clipboard.
 ───────┴────────────────────────────────────────────────────────────────────────
 ```
-
-<img width="954" alt="image" src="https://github.com/user-attachments/assets/963b3fac-2eb3-411f-a88f-87635958bf5b">
 
 ### dev
 
