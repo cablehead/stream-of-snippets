@@ -4,9 +4,37 @@ A personal microblog that allows you to share a 'stream of snippets'—fragments
 
 ![a women projecting a "stream of snippets", notes she's curated, kung fu cartoon styled, seemingly to save the world](https://github.com/user-attachments/assets/9f631a69-c017-4b1d-9a8f-774e059e578b)
 
-### usage
+### overview
 
 This is a lightweight, static SolidJS app that tails an [`xs`](https://github.com/cablehead/xs) event stream. It publishes frames with the topic 'snippet' and displays them as Markdown fragments.
+
+<img width="954" alt="image" src="https://github.com/user-attachments/assets/963b3fac-2eb3-411f-a88f-87635958bf5b">
+
+<pre>
+http://your-stream-of-snippets...
+┌───────────────────────────────────────────────────┐
+│   # proxy api requests to xs                      │
+│   # /api/*  ◀─────────────────────────────────────┼────────┐
+│                                                   │        │
+│   # otherwise serve the static SolidJS built dist │        │
+│   # /* -> ./dist/*                                │        │
+└───────────────────────────────────────────────────┘        │
+                                             ┌───────────────┴────────────────────────────────────┐
+                                             │         `xs serve ./store --expose :3021`          │
+                                             └────────────────▲───────────────────────────────────┘
+ ┌────────────────────────────────────────────────┐           │
+ │ to publish:                                    │           │
+ │                                                │           │
+ │ $ $env.XS_PWD = ":3021"                        │           │
+ │                                                │           │
+ │ $ bp | .append snippet   ──────────────────────┼───────────┘
+ └────────────────────────────────────────────────┘
+</pre>
+
+### dev
+
+### screencasts and screenshots
+
 
 https://github.com/user-attachments/assets/fba60beb-c5ae-42ba-97b4-e9564a74b722
 
