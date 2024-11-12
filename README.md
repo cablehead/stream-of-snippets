@@ -48,6 +48,22 @@ $ bp | bat -l md
 
 ### dev
 
+```bash
+$ git clone https://github.com/cablehead/stream-of-snippets.git
+$ cd stream-of-snippets
+
+# run the event stream in one window
+$ xs serve ./store —expose :3021
+
+# run vite in another window
+$ deno task dev
+
+# append a snippet in a 3rd window
+$ echo "my first post" | xs append ./store snippet
+```
+
+![image](https://github.com/user-attachments/assets/ffcb4947-209f-407a-81b7-653d24d01eff)
+
 ### screencasts and screenshots
 
 
