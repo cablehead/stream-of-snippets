@@ -2,49 +2,11 @@ A personal microblog that allows you to share a 'stream of snippets'—fragments
 
 ## a stream of snippets
 
-![a women projecting a "stream of snippets", notes she's curated, kung fu cartoon styled, seemingly to save the world](https://github.com/user-attachments/assets/9f631a69-c017-4b1d-9a8f-774e059e578b)
+<img width="1024" alt="a women projecting a 'stream of snippets', notes she's curated, kung fu cartoon styled, seemingly to save the world" src="https://github.com/user-attachments/assets/4369df4a-ddae-437c-ba3d-aef007c3fd44">
 
 ### overview
 
 This is a lightweight, static [SolidJS](https://www.solidjs.com) app that tails an [`xs`](https://github.com/cablehead/xs) event stream. It publishes frames with the topic 'snippet' and displays them as Markdown fragments.
-
-<img width="954" alt="image" src="https://github.com/user-attachments/assets/963b3fac-2eb3-411f-a88f-87635958bf5b">
-
-<pre>
-http://your-stream-of-snippets...
-┌───────────────────────────────────────────────────┐
-│   # proxy api requests to xs                      │
-│   # /api/*  ◀─────────────────────────────────────┼────────┐
-│                                                   │        │
-│   # otherwise serve the static SolidJS built dist │        │
-│   # /* -> ./dist/*                                │        │
-└───────────────────────────────────────────────────┘        │
-                               ┌─────────────────────────────┴─────┐
-                               │ `xs serve ./store --expose :3021` │
-                               └──────────────────────────────▲────┘
- ┌────────────────────────────────────────────────┐           │
- │ to publish:                                    │           │
- │                                                │           │
- │ $ $env.XS_PWD = ":3021"                        │           │
- │                                                │           │
- │ $ bp | .append snippet   ──────────────────────┼───────────┘
- └────────────────────────────────────────────────┘
-</pre>
-
-```
-$ bp | bat -l md
-───────┬────────────────────────────────────────────────────────────────────────
-       │ STDIN
-───────┼────────────────────────────────────────────────────────────────────────
-   1   │ Posting here looks like this:
-   2   │
-   3   │ ```bash
-   4   │ bp | .append snippet
-   5   │ ```
-   6   │
-   7   │ Where `bp` is the current contents of my clipboard.
-───────┴────────────────────────────────────────────────────────────────────────
-```
 
 ### dev
 
@@ -63,6 +25,24 @@ $ echo "my first post" | xs append ./store snippet
 ```
 
 ![image](https://github.com/user-attachments/assets/ffcb4947-209f-407a-81b7-653d24d01eff)
+
+[vite.config.ts](https://github.com/cablehead/stream-of-snippets/blob/main/vite.config.ts#L9-L14) is configured to proxy `/api/*` to localhost:3021, to expose the event stream
+
+<pre>
+http://your-stream-of-snippets...
+┌───────────────────────────────────────────────────┐
+│   # proxy /api to xs                              │
+│   # /api/*  ◀─────────────────────────────────────┼────────┐
+│                                                   │        │
+│   # otherwise serve the static SolidJS built dist │        │
+│   # /* -> ./dist/*                                │        │
+└───────────────────────────────────────────────────┘        │
+                               ┌─────────────────────────────┴─────┐
+                               │ `xs serve ./store --expose :3021` │
+                               └────────────────────────────▲──────┘
+  to publish:                                               │
+      $ bp | xs append ./store snippet  ]───────────────────┘
+</pre>
 
 ### screencasts and screenshots
 
