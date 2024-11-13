@@ -43,7 +43,7 @@ const App: Component = () => {
         <span
           style="font-size: 2em; font-weight: 500;"
           innerHTML={titleContent()}
-        />;
+        />
 
         <div style="cursor: pointer;" onclick={toggleTheme}>
           <svg
