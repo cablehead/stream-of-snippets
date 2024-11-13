@@ -15,10 +15,12 @@ import { CASStore } from "./store/cas";
 // Set up `marked` with `marked-highlight`
 const marked = new Marked(
   markedHighlight({
+    emptyLangClass: "hljs language-plaintext",
     langPrefix: "hljs language-",
     highlight(code, lang) {
       const language = hljs.getLanguage(lang) ? lang : "plaintext";
-      return hljs.highlight(code, { language }).value;
+      const res = hljs.highlight(code, { language }).value;
+      return res;
     },
   }),
 );
