@@ -1,29 +1,13 @@
-import { Component, createMemo, createSignal, For, Show } from "solid-js";
+import { Component, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 
 import { Scru128Id } from "scru128";
 import { formatRelative } from "date-fns";
 
-import { Marked } from "marked";
-import { markedHighlight } from "marked-highlight";
-
-import hljs from "highlight.js";
-
 import { Frame } from "./store/stream";
 import { CASStore } from "./store/cas";
 
-// Set up `marked` with `marked-highlight`
-const marked = new Marked(
-  markedHighlight({
-    emptyLangClass: "hljs language-plaintext",
-    langPrefix: "hljs language-",
-    highlight(code, lang) {
-      const language = hljs.getLanguage(lang) ? lang : "plaintext";
-      const res = hljs.highlight(code, { language }).value;
-      return res;
-    },
-  }),
-);
+import { marked } from "./marked";
 
 const CardWrapper = styled("div")`
   display: flex;

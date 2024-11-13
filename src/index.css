@@ -75,6 +75,10 @@ blockquote {
   font-style: italic;
 }
 
+header p {
+  margin: 0;
+}
+
 main {
   width: 100%;
 }

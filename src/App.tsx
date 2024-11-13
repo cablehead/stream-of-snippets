@@ -1,9 +1,10 @@
-import { Component, For } from "solid-js";
+import { Component, createResource, For } from "solid-js";
+
 import { useFrameStream } from "./store/stream";
 import { useStore } from "./store";
 import { createCAS } from "./store/cas";
 import Card from "./Card";
-
+import { marked } from "./marked";
 import { prefersDark, toggleTheme } from "./theme";
 
 const App: Component = () => {
@@ -17,8 +18,19 @@ const App: Component = () => {
     return await response.text();
   };
 
-  const { index } = useStore({ dataSignal: frameSignal });
+  const { index, title } = useStore({ dataSignal: frameSignal });
   const CAS = createCAS(fetchContent);
+
+  const [titleContent] = createResource(
+    () => {
+      const frame = title();
+      if (!frame) return "a stream of snippets";
+      return CAS.get(frame.hash)() || "a stream of snippets";
+    },
+    async (content) => {
+      return await marked.parse(content);
+    },
+  );
 
   return (
     <div>
@@ -28,12 +40,10 @@ const App: Component = () => {
 			align-items: center;
 			padding: 1em 0 2em;
 			">
-        <span style="
-			font-size: 2em;
-			font-weight: 500;
-			">
-          a stream of snippets
-        </span>
+        <span
+          style="font-size: 2em; font-weight: 500;"
+          innerHTML={titleContent()}
+        />;
 
         <div style="cursor: pointer;" onclick={toggleTheme}>
           <svg

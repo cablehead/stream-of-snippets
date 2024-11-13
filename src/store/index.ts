@@ -1,4 +1,4 @@
-import { createEffect, createMemo } from "solid-js";
+import { createEffect, createMemo, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 import { Frame } from "./stream";
 
@@ -10,10 +10,16 @@ type StreamProps = {
 
 export function useStore({ dataSignal }: StreamProps) {
   const [frames, setFrames] = createStore<StreamStore>({});
+  const [title, setTitle] = createSignal<Frame | null>(null);
 
   createEffect(() => {
     const frame = dataSignal();
     if (!frame) return;
+
+    if (frame.topic === "title") {
+      setTitle(frame);
+      return;
+    }
 
     if (frame.topic !== "snippet") return;
 
@@ -29,5 +35,6 @@ export function useStore({ dataSignal }: StreamProps) {
 
   return {
     index,
+    title,
   };
 }
