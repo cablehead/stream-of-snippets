@@ -84,14 +84,16 @@ const CopyIcon: Component<{ content: string }> = (props) => {
 
 const Card: Component<CardProps> = (props) => {
   const { frames, CAS } = props;
+
   const frame = () => frames[0];
+  const baseFrame = () => frames[frames.length - 1];
+  const baseId = () => baseFrame().id;
 
   const contentSignal = () => CAS.get(frame().hash);
 
   const renderContent = () => marked.parse(contentSignal()() || "");
 
-  const id = Scru128Id.fromString(frame().id);
-  const stamp = new Date(id.timestamp);
+  const stamp = new Date(Scru128Id.fromString(baseId()).timestamp);
 
   return (
     <CardWrapper>
@@ -105,9 +107,7 @@ const Card: Component<CardProps> = (props) => {
       </Content>
       <Meta>
         <span style="color: var(--color-bg);">
-          {formatRelative(stamp, new Date(), {
-            lastWeek: "'Last' eee",
-          })}
+          {formatRelative(stamp, new Date())}
         </span>
         <span>
           <a
@@ -115,10 +115,10 @@ const Card: Component<CardProps> = (props) => {
             href="#"
             onClick={(e) => {
               e.preventDefault();
-              navigator.clipboard.writeText(frame().id);
+              navigator.clipboard.writeText(baseId());
             }}
           >
-            {frame().id.slice(0, 3) + "..." + frame().id.slice(-4)}
+            {baseId().slice(0, 3) + "..." + baseId().slice(-4)}
           </a>
         </span>
       </Meta>
