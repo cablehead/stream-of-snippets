@@ -39,7 +39,7 @@ const Meta = styled("div")`
   padding: 0.5em 1em;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
 `;
 
 type CardProps = {
@@ -104,7 +104,23 @@ const Card: Component<CardProps> = (props) => {
         </Show>
       </Content>
       <Meta>
-        <span>{formatRelative(stamp, new Date())}</span>
+        <span style="color: var(--color-bg);">
+          {formatRelative(stamp, new Date(), {
+            lastWeek: "'Last' eee",
+          })}
+        </span>
+        <span>
+          <a
+            style="color: var(--color-bg"
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              navigator.clipboard.writeText(frame().id);
+            }}
+          >
+            {frame().id.slice(0, 3) + "..." + frame().id.slice(-4)}
+          </a>
+        </span>
       </Meta>
     </CardWrapper>
   );
