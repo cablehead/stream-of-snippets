@@ -1,5 +1,7 @@
-import { Component, Show } from "solid-js";
+import { Component, createSignal, Show } from "solid-js";
 import { styled } from "solid-styled-components";
+
+import { Copy, CopyCheck } from "lucide-solid";
 
 import { Scru128Id } from "scru128";
 import { formatRelative } from "date-fns";
@@ -13,11 +15,12 @@ const CardWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 
   border-radius: 0.25em;
-	box-shadow: 0 0 0.25em var(--color-shadow);
-	border-left: none;
-	border-right: none;
+  box-shadow: 0 0 0.25em var(--color-shadow);
+  border-left: none;
+  border-right: none;
 
   margin-bottom: 1em;
 `;
@@ -44,6 +47,41 @@ type CardProps = {
   CAS: CASStore;
 };
 
+const CopyIcon: Component<{ content: string }> = (props) => {
+  const [copied, setCopied] = createSignal(false);
+
+  const handleCopyClick = () => {
+    navigator.clipboard.writeText(props.content).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 500);
+    });
+  };
+
+  return (
+    <div
+      style="
+        position: absolute;
+        right: 1em;
+        top: 1em;
+        cursor: pointer;
+        padding: 0.25em;
+        border-radius: 0.25em;
+        transition: background-color 0.1s;
+        line-height: 0;
+    "
+      onClick={handleCopyClick}
+      onMouseOver={(
+        e,
+      ) => (e.currentTarget.style.backgroundColor = "var(--color-accent)")}
+      onMouseOut={(
+        e,
+      ) => (e.currentTarget.style.backgroundColor = "transparent")}
+    >
+      {copied() ? <CopyCheck /> : <Copy />}
+    </div>
+  );
+};
+
 const Card: Component<CardProps> = (props) => {
   const { frames, CAS } = props;
   const frame = () => frames[0];
@@ -57,6 +95,9 @@ const Card: Component<CardProps> = (props) => {
 
   return (
     <CardWrapper>
+      <Show when={contentSignal()()} keyed>
+        {(content) => <CopyIcon content={content} />}
+      </Show>
       <Content>
         <Show when={renderContent()} keyed>
           {(content) => <div class="markdown" innerHTML={content as string} />}

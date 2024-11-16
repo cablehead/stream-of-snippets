@@ -15,6 +15,7 @@
     "@solid-primitives/media": "npm:@solid-primitives/media@^2.2.9",
     "date-fns": "npm:date-fns@^4.1.0",
     "highlight.js": "npm:highlight.js@^11.10.0",
+    "lucide-solid": "npm:lucide-solid@^0.460.0",
     "marked": "npm:marked@^14.1.4",
     "marked-highlight": "npm:marked-highlight@^2.2.0",
     "scru128": "npm:scru128@^3.0.6",

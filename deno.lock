@@ -5,6 +5,7 @@
     "npm:@solid-primitives/media@^2.2.9": "2.2.9_solid-js@1.9.3__seroval@1.1.1",
     "npm:date-fns@^4.1.0": "4.1.0",
     "npm:highlight.js@^11.10.0": "11.10.0",
+    "npm:lucide-solid@0.460": "0.460.0_solid-js@1.9.3__seroval@1.1.1",
     "npm:marked-highlight@^2.2.0": "2.2.0_marked@14.1.4",
     "npm:marked@^14.1.4": "14.1.4",
     "npm:scru128@^3.0.6": "3.0.6",
@@ -499,6 +500,12 @@
         "yallist"
       ]
     },
+    "lucide-solid@0.460.0_solid-js@1.9.3__seroval@1.1.1": {
+      "integrity": "sha512-AWAdAwos18PToEJhCZznOMP7QWnrKvULrTcz7UVJEChQF289U3oYQzcfbJUWSws9duqOpwqVR6X/9DdBvTcuyQ==",
+      "dependencies": [
+        "solid-js"
+      ]
+    },
     "marked-highlight@2.2.0_marked@14.1.4": {
       "integrity": "sha512-36LzwtVf7HEbbMITKU4j+iZuyWKgdXJfgYr4F5j27vs79oRPyApuBF3WkS5OsqO1+1lypWxztad7zNRM4qgXFw==",
       "dependencies": [
@@ -660,6 +667,7 @@
       "npm:@solid-primitives/media@^2.2.9",
       "npm:date-fns@^4.1.0",
       "npm:highlight.js@^11.10.0",
+      "npm:lucide-solid@0.460",
       "npm:marked-highlight@^2.2.0",
       "npm:marked@^14.1.4",
       "npm:scru128@^3.0.6",
