@@ -1,4 +1,4 @@
-import { Component, createResource, For, Show } from "solid-js";
+import { Component, createResource, Show } from "solid-js";
 
 import { Route, Router, useParams } from "@solidjs/router";
 

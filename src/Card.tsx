@@ -1,4 +1,4 @@
-import { Component, createSignal, Show } from "solid-js";
+import { Component, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 import { A } from "@solidjs/router";
 
