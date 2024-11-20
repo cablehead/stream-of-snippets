@@ -95,11 +95,11 @@ const Card: Component<CardProps> = (props) => {
   align-items: center;
   gap: 1em;
         ">
-          <Show when={recentStamp}>
+          {recentStamp && (
             <span>
               {formatRelative(recentStamp, new Date())}
             </span>
-          </Show>
+          )}
 
           <span style="margin-left: auto">
             {formatRelative(stamp, new Date())}
