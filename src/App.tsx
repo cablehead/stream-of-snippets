@@ -1,4 +1,4 @@
-import { Component, createResource, Show } from "solid-js";
+import { Component, createEffect, createResource, Show } from "solid-js";
 
 import { A, Route, Router, useParams } from "@solidjs/router";
 
@@ -18,7 +18,6 @@ const App: Component = () => {
   const frameSignal = useFrameStream();
 
   const fetchContent = async (hash: string) => {
-    console.log("fetchContent", hash);
     const response = await fetch(`/api/cas/${hash}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch content for hash ${hash}`);
@@ -56,33 +55,35 @@ const App: Component = () => {
         <ThemeTrigger prefersDark={prefersDark} toggleTheme={toggleTheme} />
       </header>
 
-      <Router>
-        <Route path="/" component={() => <Home index={index} CAS={CAS} />} />
-        <Route
-          path="/:id"
-          component={() => {
-            const params = useParams();
-            const frameId = params.id;
+      <Show when={index() !== undefined} fallback={<p>Loading...</p>}>
+        <Router>
+          <Route
+            path="/"
+            component={() => <Home index={index()!} CAS={CAS} />}
+          />
+          <Route
+            path="/:id"
+            component={() => {
+              const params = useParams();
+              const frameId = params.id;
 
-            const foundSnippet = index().find((frames) => {
-              console.log("frames", frames);
-              return frames[frames.length - 1].id === frameId;
-            });
+              const foundSnippet = index()!.find((frames) => {
+                return frames[frames.length - 1].id === frameId;
+              });
 
-            console.log("frameId", frameId, "foundSnippet", foundSnippet);
-
-            return (
-              <Show when={foundSnippet} fallback={<NotFound />}>
-                <p>
-                  <A href="/">home</A> / <A href={`/${frameId}`}>{frameId}</A>
-                </p>
-                <Card frames={foundSnippet!} CAS={CAS} />
-              </Show>
-            );
-          }}
-        />
-        <Route path="*paramName" component={NotFound} />
-      </Router>
+              return (
+                <Show when={foundSnippet} fallback={<NotFound />}>
+                  <p>
+                    <A href="/">home</A> / <A href={`/${frameId}`}>{frameId}</A>
+                  </p>
+                  <Card frames={foundSnippet!} CAS={CAS} />
+                </Show>
+              );
+            }}
+          />
+          <Route path="*paramName" component={NotFound} />
+        </Router>
+      </Show>
     </div>
   );
 };
