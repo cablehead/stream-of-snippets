@@ -1,11 +1,14 @@
 import { Component, createSignal, Show } from "solid-js";
 import { styled } from "solid-styled-components";
+
 import { Scru128Id } from "scru128";
-import CopyTrigger from "./components/CopyTrigger";
 import { formatRelative } from "date-fns";
+import { Fingerprint, Maximize2 } from "lucide-solid";
+
 import { Frame } from "./store/stream";
 import { CASStore } from "./store/cas";
 import { marked } from "./marked";
+import CopyTrigger from "./components/CopyTrigger";
 
 const CardWrapper = styled("div")`
   display: flex;
@@ -34,12 +37,6 @@ const Meta = styled("div")`
   flex-direction: column;
 `;
 
-const MetaRow = styled("div")`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 type CardProps = {
   frames: Frame[];
   CAS: CASStore;
@@ -47,33 +44,67 @@ type CardProps = {
 
 const Card: Component<CardProps> = (props) => {
   const { frames, CAS } = props;
-  const frame = () => frames[0];
-  const baseFrame = () => frames[frames.length - 1];
-  const baseId = () => baseFrame().id;
-  const contentSignal = () => CAS.get(frame().hash);
+
+  const baseFrame = frames[frames.length - 1];
+
+  const contentSignal = () => CAS.get(frames[0].hash);
   const renderContent = () => marked.parse(contentSignal()() || "");
-  const stamp = new Date(Scru128Id.fromString(baseId()).timestamp);
+  const stamp = new Date(Scru128Id.fromString(baseFrame.id).timestamp);
+
+  const recentStamp = frames.length > 1
+    ? new Date(Scru128Id.fromString(frames[0].id).timestamp)
+    : null;
 
   return (
     <CardWrapper>
       <Meta class="panel">
-        <MetaRow>
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              navigator.clipboard.writeText(baseId());
-            }}
-          >
-            {baseId()}
-          </a>
-          <Show when={contentSignal()()} keyed>
-            {(content) => <CopyTrigger content={content} />}
+        <div style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1em;
+          ">
+          <span>
+            Markdown
+          </span>
+
+          <div style="display:flex">
+            <Fingerprint
+              class="icon-button"
+              size={18}
+              onClick={(e) => {
+                e.preventDefault();
+                navigator.clipboard.writeText(baseFrame.id);
+              }}
+            />
+
+            <Show when={contentSignal()()} keyed>
+              {(content) => (
+                <span>
+                  <CopyTrigger content={content} />
+                </span>
+              )}
+            </Show>
+
+            <Maximize2 class="icon-button" size={18} />
+          </div>
+        </div>
+        <div style="
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1em;
+        ">
+          <Show when={recentStamp}>
+            <span>
+              {formatRelative(recentStamp, new Date())}
+            </span>
           </Show>
-        </MetaRow>
-        <MetaRow>
-          {formatRelative(stamp, new Date())}
-        </MetaRow>
+
+          <span style="margin-left: auto">
+            {formatRelative(stamp, new Date())}
+          </span>
+        </div>
       </Meta>
       <Content>
         <Show when={renderContent()} keyed>
