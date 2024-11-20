@@ -36,6 +36,7 @@ const Meta = styled("div")`
   padding: 0.5em 1em;
   display: flex;
   flex-direction: column;
+  gap: 0.25em;
 `;
 
 type CardProps = {
