@@ -1,6 +1,6 @@
 import { Component, createResource, Show } from "solid-js";
 
-import { Route, Router, useParams } from "@solidjs/router";
+import { A, Route, Router, useParams } from "@solidjs/router";
 
 import { useFrameStream } from "./store/stream";
 import { useStore } from "./store";
@@ -73,6 +73,9 @@ const App: Component = () => {
 
             return (
               <Show when={foundSnippet} fallback={<NotFound />}>
+                <p>
+                  <A href="/">home</A> / <A href={`/${frameId}`}>{frameId}</A>
+                </p>
                 <Card frames={foundSnippet!} CAS={CAS} />
               </Show>
             );
