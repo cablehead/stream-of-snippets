@@ -20,6 +20,7 @@ const CardWrapper = styled("div")`
   border-left: none;
   border-right: none;
   margin-bottom: 1em;
+  background-color: var(--color-bg-alt);
 `;
 
 const Content = styled("div")`

@@ -34,6 +34,7 @@
   /* theme="light" */
   --color-fg: var(--color-dark-0);
   --color-bg: var(--color-white);
+  --color-bg-alt: var(--color-light-0);
   --color-link: var(--color-purple);
   --color-pill: var(--color-light-2);
   --color-shadow: var(--color-light-2);
@@ -46,11 +47,13 @@
   background-color: var(--color-bg);
   --color-link: var(--color-panel-fg);
   --color-pill: var(--color-light-2);
+  --color-pill-active: var(--color-dark-0);
 }
 
 body[data-theme="dark"] {
   --color-fg: var(--color-light-0);
   --color-bg: var(--color-black);
+  --color-bg-alt: var(--color-dark-3);
   --color-pill: var(--color-dark-1);
   --color-shadow: var(--color-dark-1);
 
@@ -61,6 +64,7 @@ body[data-theme="dark"] {
     background-color: var(--color-bg);
     --color-link: var(--color-panel-fg);
     --color-pill: var(--color-dark-0);
+    --color-pill-active: var(--color-light-2);
   }
 }
 
@@ -72,7 +76,6 @@ code:not(pre code) {
 
 pre {
   border-radius: 0.25em;
-  padding: 0.5em;
   border: 0.5px solid var(--color-shadow);
   overflow-x: auto;
 }
@@ -145,4 +148,9 @@ img {
 .icon-button:hover {
   background-color: var(--color-pill);
   box-shadow: 0 0 0.25em var(--color-shadow);
+}
+
+.icon-button:active {
+  background-color: var(--color-pill-active);
+  transition: background-color 0s;
 }
