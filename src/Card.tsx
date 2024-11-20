@@ -52,24 +52,28 @@ const CopyButton = styled("div")`
   }
 `;
 
-type CardProps = {
-  frames: Frame[];
-  CAS: CASStore;
-};
-
 const CopyIcon: Component<{ content: string }> = (props) => {
   const [copied, setCopied] = createSignal(false);
+
   const handleCopyClick = () => {
     navigator.clipboard.writeText(props.content).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 1000);
     });
   };
+
   return (
-    <CopyButton onClick={handleCopyClick}>
-      {copied() ? <CopyCheck size={18} /> : <Copy size={18} />}
-    </CopyButton>
+    <div class="icon-button" onClick={handleCopyClick}>
+      <Show when={copied()} fallback={<Copy size={18} />}>
+        <CopyCheck size={18} />
+      </Show>
+    </div>
   );
+};
+
+type CardProps = {
+  frames: Frame[];
+  CAS: CASStore;
 };
 
 const Card: Component<CardProps> = (props) => {

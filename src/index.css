@@ -135,3 +135,16 @@ img {
   border-radius: 0.25em;
   display: block;
 }
+
+.icon-button {
+  cursor: pointer;
+  padding: 0.25em;
+  border-radius: 0.25em;
+  line-height: 0;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.icon-button:hover {
+  background-color: var(--color-pill);
+  box-shadow: 0 0 0.25em var(--color-shadow);
+}
