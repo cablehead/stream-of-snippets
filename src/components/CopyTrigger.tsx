@@ -7,7 +7,7 @@ const CopyTrigger: Component<{ content: string }> = (props) => {
   const handleCopyClick = () => {
     navigator.clipboard.writeText(props.content).then(() => {
       setCopied(true);
-      setTimeout(() => setCopied(false), 1000);
+      setTimeout(() => setCopied(false), 300);
     });
   };
 
