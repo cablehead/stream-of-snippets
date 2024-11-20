@@ -7,36 +7,72 @@
     source-sans-pro, sans-serif;
   font-weight: normal;
 
-  /* Colors */
-  --color-fg: #4e5668;
-  --color-bg: #fff;
-  --color-sub-fg: #68604e;
-  --color-sub-bg: #eceff4;
-  --color-accent: #94bfce;
-  --color-shadow: #aaa;
+  /* nord theme */
+  --color-black: #2a2e38;
+  --color-white: #fff;
+
+  --color-dark-0: #4c566a;
+  --color-dark-1: #434c5e;
+  --color-dark-2: #3b4252;
+  --color-dark-3: #2e3440;
+
+  --color-light-0: #eceff4;
+  --color-light-2: #e5e9f0;
+  --color-light-3: #d8dee9;
+
+  --color-frost-0: #8fbcbb;
+  --color-frost-1: #88c0d0;
+  --color-frost-2: #81a1c1;
+  --color-frost-3: #5e81ac;
+
+  --color-red: #bf616a;
+  --color-orange: #d08770;
+  --color-yellow: #ebcb8b;
+  --color-green: #a3be8c;
+  --color-purple: #b48ead;
+
+  /* theme="light" */
+  --color-fg: var(--color-dark-0);
+  --color-bg: var(--color-white);
+  --color-link: var(--color-purple);
+  --color-pill: var(--color-light-2);
+  --color-shadow: var(--color-light-3);
+}
+
+.panel {
+  --color-fg: var(--color-dark-0);
+  --color-bg: var(--color-frost-1);
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+  --color-link: var(--color-panel-fg);
+  --color-pill: var(--color-purple);
+  --color-pill: var(--color-light-2);
 }
 
 body[data-theme="dark"] {
-  --color-fg: #d8dae2;
-  --color-bg: #2e3440;
-  --color-sub-fg: #e2e0d8;
-  --color-sub-bg: #403a2e;
-  --color-accent: #ae8fab;
-  --color-shadow: #567c89;
-}
+  --color-fg: var(--color-light-0);
+  --color-bg: var(--color-black);
+  --color-pill: var(--color-dark-2);
+  --color-shadow: var(--color-dark-1);
 
-:root {
+  .panel {
+    --color-fg: var(--color-light-0);
+    --color-bg: var(--color-frost-3);
+    color: var(--color-fg);
+    background-color: var(--color-bg);
+    --color-link: var(--color-panel-fg);
+    --color-pill: var(--color-purple);
+    --color-pill: var(--color-dark-2);
+  }
 }
 
 code:not(pre code) {
-  color: var(--color-sub-fg);
-  background-color: var(--color-sub-bg);
+  background-color: var(--color-pill);
   border-radius: 0.25em;
   padding: 0.1em 0.25em;
 }
 
 pre {
-  /* background-color: var(--color-accent); */
   border-radius: 0.25em;
   padding: 0.5em;
   border: 0.5px solid var(--color-shadow);
@@ -44,11 +80,11 @@ pre {
 }
 
 a {
-  color: var(--color-accent);
+  color: var(--color-link);
 }
 
 a:hover {
-  color: var(--color-sub-fg);
+  background-color: var(--color-pill);
 }
 
 body {
@@ -56,7 +92,6 @@ body {
   padding: 0.5em;
   max-width: 1020px;
   display: flex;
-
   color: var(--color-fg);
   background-color: var(--color-bg);
 }
@@ -70,11 +105,15 @@ h1 {
 blockquote {
   margin: 0;
   margin-left: 1em;
-  border-left: 0.25em solid var(--color-accent);
+  border-left: 0.25em solid var(--color-link);
   padding-left: 0.75em;
   font-style: italic;
 }
 
+header {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
 header p {
   margin: 0;
 }
