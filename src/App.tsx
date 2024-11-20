@@ -18,7 +18,7 @@ const App: Component = () => {
   const frameSignal = useFrameStream();
 
   const fetchContent = async (hash: string) => {
-      console.log("fetchContent", hash);
+    console.log("fetchContent", hash);
     const response = await fetch(`/api/cas/${hash}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch content for hash ${hash}`);
@@ -65,7 +65,7 @@ const App: Component = () => {
             const frameId = params.id;
 
             const foundSnippet = index().find((frames) => {
-                console.log("frames", frames);
+              console.log("frames", frames);
               return frames[frames.length - 1].id === frameId;
             });
 
