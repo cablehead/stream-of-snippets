@@ -1,18 +1,24 @@
-import { Component, createResource, For } from "solid-js";
+import { Component, createResource, For, Show } from "solid-js";
+
+import { Route, Router, useParams } from "@solidjs/router";
 
 import { useFrameStream } from "./store/stream";
 import { useStore } from "./store";
 import { createCAS } from "./store/cas";
-import Card from "./Card";
 import { marked } from "./marked";
 import { prefersDark, toggleTheme } from "./theme";
 
 import ThemeTrigger from "./components/ThemeTrigger";
 
+import Card from "./Card";
+import NotFound from "./routes/NotFound";
+import Home from "./routes/Home";
+
 const App: Component = () => {
   const frameSignal = useFrameStream();
 
   const fetchContent = async (hash: string) => {
+      console.log("fetchContent", hash);
     const response = await fetch(`/api/cas/${hash}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch content for hash ${hash}`);
@@ -50,9 +56,30 @@ const App: Component = () => {
         <ThemeTrigger prefersDark={prefersDark} toggleTheme={toggleTheme} />
       </header>
 
-      <For each={index()}>
-        {(frames) => <Card frames={frames} CAS={CAS} />}
-      </For>
+      <Router>
+        <Route path="/" component={() => <Home index={index} CAS={CAS} />} />
+        <Route
+          path="/:id"
+          component={() => {
+            const params = useParams();
+            const frameId = params.id;
+
+            const foundSnippet = index().find((frames) => {
+                console.log("frames", frames);
+              return frames[frames.length - 1].id === frameId;
+            });
+
+            console.log("frameId", frameId, "foundSnippet", foundSnippet);
+
+            return (
+              <Show when={foundSnippet} fallback={<NotFound />}>
+                <Card frames={foundSnippet!} CAS={CAS} />
+              </Show>
+            );
+          }}
+        />
+        <Route path="*paramName" component={NotFound} />
+      </Router>
     </div>
   );
 };

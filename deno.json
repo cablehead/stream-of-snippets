@@ -13,6 +13,7 @@
   "imports": {
     "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.0",
     "@solid-primitives/media": "npm:@solid-primitives/media@^2.2.9",
+    "@solidjs/router": "npm:@solidjs/router@^0.15.1",
     "date-fns": "npm:date-fns@^4.1.0",
     "highlight.js": "npm:highlight.js@^11.10.0",
     "lucide-solid": "npm:lucide-solid@^0.460.0",

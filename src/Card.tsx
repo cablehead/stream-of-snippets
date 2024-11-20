@@ -1,9 +1,10 @@
 import { Component, createSignal, Show } from "solid-js";
 import { styled } from "solid-styled-components";
+import { A } from "@solidjs/router";
 
 import { Scru128Id } from "scru128";
 import { formatRelative } from "date-fns";
-import { Fingerprint, Maximize2 } from "lucide-solid";
+import { Fingerprint } from "lucide-solid";
 
 import { Frame } from "./store/stream";
 import { CASStore } from "./store/cas";
@@ -70,7 +71,7 @@ const Card: Component<CardProps> = (props) => {
             Markdown
           </span>
 
-          <div style="display:flex">
+          <div style="display:flex; gap: 0.2em;">
             <Fingerprint
               class="icon-button"
               size={18}
@@ -87,8 +88,6 @@ const Card: Component<CardProps> = (props) => {
                 </span>
               )}
             </Show>
-
-            <Maximize2 class="icon-button" size={18} />
           </div>
         </div>
         <div style="
@@ -104,7 +103,9 @@ const Card: Component<CardProps> = (props) => {
           )}
 
           <span style="margin-left: auto">
-            {formatRelative(stamp, new Date())}
+            <A href={`/${baseFrame.id}`}>
+              {formatRelative(stamp, new Date())}
+            </A>
           </span>
         </div>
       </Meta>

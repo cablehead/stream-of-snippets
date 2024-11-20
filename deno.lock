@@ -3,6 +3,7 @@
   "specifiers": {
     "npm:@deno/vite-plugin@1": "1.0.0_vite@5.4.10",
     "npm:@solid-primitives/media@^2.2.9": "2.2.9_solid-js@1.9.3__seroval@1.1.1",
+    "npm:@solidjs/router@~0.15.1": "0.15.1_solid-js@1.9.3__seroval@1.1.1",
     "npm:date-fns@^4.1.0": "4.1.0",
     "npm:highlight.js@^11.10.0": "11.10.0",
     "npm:lucide-solid@0.460": "0.460.0_solid-js@1.9.3__seroval@1.1.1",
@@ -346,6 +347,12 @@
         "solid-js"
       ]
     },
+    "@solidjs/router@0.15.1_solid-js@1.9.3__seroval@1.1.1": {
+      "integrity": "sha512-lb5BRBqQqii/1dQCglx2K68xLkgu7QcrcajWKuuEx6FHTsK/hp5IgVhjy6RzPMLj+SFyrrRi/ldirCFNxtzh0Q==",
+      "dependencies": [
+        "solid-js"
+      ]
+    },
     "@types/babel__core@7.20.5": {
       "integrity": "sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==",
       "dependencies": [
@@ -665,6 +672,7 @@
     "dependencies": [
       "npm:@deno/vite-plugin@1",
       "npm:@solid-primitives/media@^2.2.9",
+      "npm:@solidjs/router@~0.15.1",
       "npm:date-fns@^4.1.0",
       "npm:highlight.js@^11.10.0",
       "npm:lucide-solid@0.460",
