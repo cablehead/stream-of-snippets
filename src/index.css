@@ -91,7 +91,7 @@ a:hover {
 body {
   margin: 0 auto;
   padding: 0.5em;
-  max-width: 1020px;
+  max-width: 780px;
   display: flex;
   color: var(--color-fg);
   background-color: var(--color-bg);
