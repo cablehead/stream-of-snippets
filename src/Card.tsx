@@ -1,4 +1,3 @@
-
 import { Component, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 import { A } from "@solidjs/router";
@@ -34,7 +33,7 @@ const Content = styled("div")`
 `;
 
 const Meta = styled("div")`
-  font-size: 0.90em;
+  font-size: 0.9em;
   padding: 0.5em 1em;
   display: flex;
   flex-direction: column;
@@ -55,22 +54,23 @@ const Card: Component<CardProps> = (props) => {
   const renderContent = () => marked.parse(contentSignal()() || "");
   const stamp = new Date(Scru128Id.fromString(baseFrame.id).timestamp);
 
-  const recentStamp = frames.length > 1
-    ? new Date(Scru128Id.fromString(frames[0].id).timestamp)
-    : null;
+  const recentStamp =
+    frames.length > 1
+      ? new Date(Scru128Id.fromString(frames[0].id).timestamp)
+      : null;
 
   return (
     <CardWrapper>
       <Meta class="panel">
-        <div style="
+        <div
+          style="
           display: flex;
           justify-content: space-between;
           align-items: center;
           gap: 1em;
-          ">
-          <span>
-            Markdown
-          </span>
+          "
+        >
+          <span>Markdown</span>
 
           <div style="display:flex; gap: 0.2em;">
             <Fingerprint
@@ -91,22 +91,20 @@ const Card: Component<CardProps> = (props) => {
             </Show>
           </div>
         </div>
-        <div style="
+        <div
+          style="
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 1em;
-        ">
+        "
+        >
           {recentStamp && (
-            <span>
-              {formatRelative(recentStamp, new Date())}
-            </span>
+            <span>{formatRelative(recentStamp, new Date())}</span>
           )}
 
           <span style="margin-left: auto">
-            <A href={`/${baseFrame.id}`}>
-              {formatRelative(stamp, new Date())}
-            </A>
+            <A href={`/${baseFrame.id}`}>{formatRelative(stamp, new Date())}</A>
           </span>
         </div>
       </Meta>

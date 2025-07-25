@@ -12,5 +12,5 @@ export const marked = new Marked(
       const res = hljs.highlight(code, { language }).value;
       return res;
     },
-  }),
+  })
 );

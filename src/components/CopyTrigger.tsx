@@ -1,4 +1,3 @@
-
 import { Component, createSignal, Show } from "solid-js";
 import Copy from "lucide-solid/icons/copy";
 import CopyCheck from "lucide-solid/icons/copy-check";

@@ -1,4 +1,3 @@
-
 // src/icons.ts
 export { default as Copy } from "lucide-solid/icons/copy";
 export { default as CopyCheck } from "lucide-solid/icons/copy-check";

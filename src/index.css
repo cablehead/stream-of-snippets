@@ -3,8 +3,9 @@
   line-height: 1.5;
 
   /* https://github.com/system-fonts/modern-font-stacks#humanist */
-  font-family: Seravek, "Gill Sans Nova", Ubuntu, Calibri, "DejaVu Sans",
-    source-sans-pro, sans-serif;
+  font-family:
+    Seravek, "Gill Sans Nova", Ubuntu, Calibri, "DejaVu Sans", source-sans-pro,
+    sans-serif;
   font-weight: normal;
 
   /* nord theme */
@@ -141,7 +142,9 @@ img {
   padding: 0.25em;
   border-radius: 0.25em;
   line-height: 0;
-  transition: background-color 0.3s, box-shadow 0.3s;
+  transition:
+    background-color 0.3s,
+    box-shadow 0.3s;
 }
 
 .icon-button:hover {

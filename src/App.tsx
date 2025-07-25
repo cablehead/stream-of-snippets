@@ -1,4 +1,3 @@
-
 import { Component, createResource, Show } from "solid-js";
 
 import { A, Route, Router, useParams } from "@solidjs/router";
@@ -37,17 +36,19 @@ const App: Component = () => {
     },
     async (content) => {
       return await marked.parse(content);
-    },
+    }
   );
 
   return (
     <div>
-      <header style="
+      <header
+        style="
                        display: flex;
                        justify-content: space-between;
                        align-items: center;
                        padding: 1em 0 2em;
-                       ">
+                       "
+      >
         <span
           style="font-size: 2em; font-weight: 500;"
           innerHTML={titleContent()}

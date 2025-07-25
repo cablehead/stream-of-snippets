@@ -1,4 +1,3 @@
-
 // CSS raw imports
 declare module "*.css?raw" {
   const content: string;
