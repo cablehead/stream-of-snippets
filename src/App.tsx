@@ -1,4 +1,5 @@
-import { Component, createEffect, createResource, Show } from "solid-js";
+
+import { Component, createResource, Show } from "solid-js";
 
 import { A, Route, Router, useParams } from "@solidjs/router";
 
