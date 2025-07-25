@@ -1,5 +1,7 @@
+
 import { Component, Show } from "solid-js";
-import { MoonStar, Sun } from "lucide-solid";
+import MoonStar from "lucide-solid/icons/moon-star";
+import Sun from "lucide-solid/icons/sun";
 
 const ThemeTrigger: Component<
   { prefersDark: () => boolean; toggleTheme: () => void }

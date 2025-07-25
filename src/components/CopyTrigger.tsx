@@ -1,5 +1,7 @@
+
 import { Component, createSignal, Show } from "solid-js";
-import { Copy, CopyCheck } from "lucide-solid";
+import Copy from "lucide-solid/icons/copy";
+import CopyCheck from "lucide-solid/icons/copy-check";
 
 const CopyTrigger: Component<{ content: string }> = (props) => {
   const [copied, setCopied] = createSignal(false);

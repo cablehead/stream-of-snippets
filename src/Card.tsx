@@ -1,10 +1,11 @@
+
 import { Component, Show } from "solid-js";
 import { styled } from "solid-styled-components";
 import { A } from "@solidjs/router";
 
 import { Scru128Id } from "scru128";
 import { formatRelative } from "date-fns";
-import { Fingerprint } from "lucide-solid";
+import Fingerprint from "lucide-solid/icons/fingerprint";
 
 import { Frame } from "./store/stream";
 import { CASStore } from "./store/cas";
