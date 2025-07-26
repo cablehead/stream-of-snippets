@@ -10,7 +10,7 @@ import { prefersDark, toggleTheme } from "./theme";
 
 import ThemeTrigger from "./components/ThemeTrigger";
 
-// import Card from "./Card"; // Unused in GPT thread viewer
+import Card from "./Card";
 import NotFound from "./routes/NotFound";
 import Home from "./routes/Home";
 
@@ -84,7 +84,7 @@ const App: Component = () => {
                   <p>
                     <A href="/">home</A> / <A href={`/${turnId}`}>{turnId}</A>
                   </p>
-                  <div>Turn details for {foundTurn!.id}</div>
+                  <Card turn={foundTurn!} CAS={CAS} parseContent={parseContent} />
                 </Show>
               );
             }}

@@ -3,7 +3,7 @@ import { A } from "@solidjs/router";
 
 import { CASStore } from "../store/cas";
 import { Thread, Turn, ContentBlock } from "../store/stream";
-import TurnCard from "../TurnCard";
+import Card from "../Card";
 
 const Home: Component<{ 
   thread: Thread; 
@@ -19,7 +19,7 @@ const Home: Component<{
         <strong>Options:</strong> {JSON.stringify(props.thread.options)}
       </div>
       <For each={props.thread.turns}>
-        {(turn) => <TurnCard turn={turn} CAS={props.CAS} parseContent={props.parseContent} />}
+        {(turn) => <Card turn={turn} CAS={props.CAS} parseContent={props.parseContent} />}
       </For>
     </>
   );
