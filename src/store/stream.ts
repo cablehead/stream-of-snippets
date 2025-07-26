@@ -28,7 +28,8 @@ export type ContentBlock =
 export type Turn = {
   id: string;
   role: "user" | "assistant" | "system";
-  content: ContentBlock[];
+  hash: string; // For lazy content loading
+  meta: Record<string, any>; // For content parsing
   timestamp: Date;
   options: Record<string, any>; // inherited
   cache: boolean;

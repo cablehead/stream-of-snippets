@@ -26,7 +26,7 @@ const App: Component = () => {
   };
 
   const CAS = createCAS(fetchContent);
-  const { currentThread, title, loadingState } = useStore({ dataSignal: frameSignal, CAS });
+  const { currentThread, title, loadingState, parseContent } = useStore({ dataSignal: frameSignal, CAS });
 
   const [titleContent] = createResource(
     () => {
@@ -66,7 +66,7 @@ const App: Component = () => {
         <Router>
           <Route
             path="/"
-            component={() => <Home thread={currentThread()!} CAS={CAS} />}
+            component={() => <Home thread={currentThread()!} CAS={CAS} parseContent={parseContent} />}
           />
           <Route
             path="/:id"

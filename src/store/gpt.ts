@@ -60,50 +60,18 @@ export function useGPTStore({ dataSignal, CAS }: GPTStoreProps) {
   });
 
   // Convert a frame to a turn (replicates frame-to-turn from ctx.nu)
-  const frameToTurn = async (frame: Frame): Promise<Turn | null> => {
+  // Returns a turn with a hash reference - content will be resolved lazily
+  const frameToTurn = (frame: Frame): Turn => {
     const meta = frame.meta || {};
     const role = meta.role || "user";
     const cache = meta.cache || false;
     const options_delta = meta.options || {};
 
-    // Fetch content from CAS
-    const content_raw = CAS.get(frame.hash)();
-    if (!content_raw) return null;
-
-    // Parse content based on type
-    let content: ContentBlock[];
-    
-    if (meta.type === "document" && meta.content_type) {
-      // Document type
-      content = [{
-        type: "document",
-        cache_control: cache ? { type: "ephemeral" } : undefined,
-        source: {
-          type: "base64",
-          media_type: meta.content_type,
-          data: btoa(content_raw) // Convert to base64
-        }
-      }];
-    } else if (meta.content_type === "application/json") {
-      // JSON content (structured blocks)
-      try {
-        content = JSON.parse(content_raw);
-      } catch {
-        content = [{ type: "text", text: content_raw }];
-      }
-    } else {
-      // Plain text
-      content = [{
-        type: "text",
-        text: content_raw,
-        cache_control: cache ? { type: "ephemeral" } : undefined
-      }];
-    }
-
     return {
       id: frame.id,
       role: role as "user" | "assistant" | "system",
-      content,
+      hash: frame.hash, // Store hash for lazy content loading
+      meta: meta, // Store meta for content parsing
       timestamp: new Date(Scru128Id.fromString(frame.id).timestamp),
       options: options_delta,
       cache
@@ -144,7 +112,7 @@ export function useGPTStore({ dataSignal, CAS }: GPTStoreProps) {
   };
 
   // Follow continues chain to build chronological turn list
-  const idToTurns = async (headId: string): Promise<Turn[]> => {
+  const idToTurns = (headId: string): Turn[] => {
     const turns: Turn[] = [];
     const stack = [headId];
 
@@ -154,10 +122,8 @@ export function useGPTStore({ dataSignal, CAS }: GPTStoreProps) {
       
       if (!frame) continue;
 
-      const turn = await frameToTurn(frame);
-      if (turn) {
-        turns.unshift(turn); // Prepend for chronological order
-      }
+      const turn = frameToTurn(frame);
+      turns.unshift(turn); // Prepend for chronological order (always add, even with placeholder)
 
       // Add continues to stack
       const continues = frame.meta?.continues;
@@ -176,7 +142,7 @@ export function useGPTStore({ dataSignal, CAS }: GPTStoreProps) {
   // Resolve full thread context (replicates ctx resolve)
   const [resolveThread, setResolveThread] = createSignal<Thread | null>(null);
   
-  createEffect(async () => {
+  createEffect(() => {
     const mostRecentId = currentHeadId();
     const threshold = thresholdReached();
     
@@ -188,7 +154,8 @@ export function useGPTStore({ dataSignal, CAS }: GPTStoreProps) {
 
     // Find the actual thread head that contains our most recent frame
     const realHeadId = findThreadHead(mostRecentId);
-    const turns = await idToTurns(realHeadId);
+    
+    const turns = idToTurns(realHeadId);
     
     // Merge options across all turns in chronological order
     const mergedOptions = turns.reduce((acc, turn) => {
@@ -205,9 +172,49 @@ export function useGPTStore({ dataSignal, CAS }: GPTStoreProps) {
     });
   });
 
+  // Helper to parse content from a turn (for use in components)
+  const parseContent = (turn: Turn): ContentBlock[] => {
+    const content_raw = CAS.get(turn.hash)();
+    const meta = turn.meta;
+    const cache = turn.cache;
+
+    if (!content_raw) {
+      // Content not loaded yet - show placeholder
+      return [{ type: "text", text: "Loading..." }];
+    }
+
+    if (meta.type === "document" && meta.content_type) {
+      // Document type
+      return [{
+        type: "document",
+        cache_control: cache ? { type: "ephemeral" } : undefined,
+        source: {
+          type: "base64",
+          media_type: meta.content_type,
+          data: btoa(content_raw) // Convert to base64
+        }
+      }];
+    } else if (meta.content_type === "application/json") {
+      // JSON content (structured blocks)
+      try {
+        return JSON.parse(content_raw);
+      } catch {
+        return [{ type: "text", text: content_raw }];
+      }
+    } else {
+      // Plain text
+      return [{
+        type: "text",
+        text: content_raw,
+        cache_control: cache ? { type: "ephemeral" } : undefined
+      }];
+    }
+  };
+
   return {
     currentThread: resolveThread,
     frames,
-    loadingState
+    loadingState,
+    parseContent
   };
 }

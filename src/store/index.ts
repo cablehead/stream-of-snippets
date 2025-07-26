@@ -27,5 +27,6 @@ export function useStore({ dataSignal, CAS }: StreamProps) {
     currentThread: gptStore.currentThread,
     title,
     loadingState: gptStore.loadingState,
+    parseContent: gptStore.parseContent,
   };
 }

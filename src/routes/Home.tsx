@@ -2,10 +2,14 @@ import { Component, For } from "solid-js";
 import { A } from "@solidjs/router";
 
 import { CASStore } from "../store/cas";
-import { Thread } from "../store/stream";
+import { Thread, Turn, ContentBlock } from "../store/stream";
 import TurnCard from "../TurnCard";
 
-const Home: Component<{ thread: Thread; CAS: CASStore }> = (props) => {
+const Home: Component<{ 
+  thread: Thread; 
+  CAS: CASStore;
+  parseContent: (turn: Turn) => ContentBlock[];
+}> = (props) => {
   return (
     <>
       <p>
@@ -15,7 +19,7 @@ const Home: Component<{ thread: Thread; CAS: CASStore }> = (props) => {
         <strong>Options:</strong> {JSON.stringify(props.thread.options)}
       </div>
       <For each={props.thread.turns}>
-        {(turn) => <TurnCard turn={turn} CAS={props.CAS} />}
+        {(turn) => <TurnCard turn={turn} CAS={props.CAS} parseContent={props.parseContent} />}
       </For>
     </>
   );

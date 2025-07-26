@@ -67,6 +67,7 @@ const RoleBadge: Component<{ role: string }> = (props) => {
 type TurnCardProps = {
   turn: Turn;
   CAS: CASStore;
+  parseContent: (turn: Turn) => ContentBlock[];
 };
 
 const ContentBlockRenderer: Component<{ block: ContentBlock }> = (props) => {
@@ -138,10 +139,13 @@ const ContentBlockRenderer: Component<{ block: ContentBlock }> = (props) => {
 };
 
 const TurnCard: Component<TurnCardProps> = (props) => {
-  const { turn } = props;
+  const { turn, parseContent } = props;
+
+  // Create reactive content signal
+  const content = () => parseContent(turn);
 
   const textContent = () => {
-    return turn.content
+    return content()
       .filter(block => block.type === "text")
       .map(block => (block as any).text)
       .join("\n");
@@ -200,7 +204,7 @@ const TurnCard: Component<TurnCardProps> = (props) => {
         </div>
       </Meta>
       <Content>
-        <For each={turn.content}>
+        <For each={content()}>
           {(block) => <ContentBlockRenderer block={block} />}
         </For>
       </Content>
