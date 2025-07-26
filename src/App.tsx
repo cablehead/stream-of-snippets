@@ -10,7 +10,7 @@ import { prefersDark, toggleTheme } from "./theme";
 
 import ThemeTrigger from "./components/ThemeTrigger";
 
-import Card from "./Card";
+// import Card from "./Card"; // Unused in GPT thread viewer
 import NotFound from "./routes/NotFound";
 import Home from "./routes/Home";
 
@@ -25,14 +25,14 @@ const App: Component = () => {
     return await response.text();
   };
 
-  const { index, title } = useStore({ dataSignal: frameSignal });
   const CAS = createCAS(fetchContent);
+  const { currentThread, title, loadingState } = useStore({ dataSignal: frameSignal, CAS });
 
   const [titleContent] = createResource(
     () => {
       const frame = title();
-      if (!frame) return "a stream of snippets";
-      return CAS.get(frame.hash)() || "a stream of snippets";
+      if (!frame) return "GPT Thread Viewer";
+      return CAS.get(frame.hash)() || "GPT Thread Viewer";
     },
     async (content) => {
       return await marked.parse(content);
@@ -57,28 +57,34 @@ const App: Component = () => {
         <ThemeTrigger prefersDark={prefersDark} toggleTheme={toggleTheme} />
       </header>
 
-      <Show when={index() !== undefined} fallback={<p>Loading...</p>}>
+      <Show when={currentThread() !== null} fallback={
+        <div>
+          <p>Loading GPT thread...</p>
+          <p style="font-size: 0.9em; color: var(--color-dark-0);">{loadingState()}</p>
+        </div>
+      }>
         <Router>
           <Route
             path="/"
-            component={() => <Home index={index()!} CAS={CAS} />}
+            component={() => <Home thread={currentThread()!} CAS={CAS} />}
           />
           <Route
             path="/:id"
             component={() => {
               const params = useParams();
-              const frameId = params.id;
+              const turnId = params.id;
+              const thread = currentThread();
 
-              const foundSnippet = index()!.find((frames) => {
-                return frames[frames.length - 1].id === frameId;
-              });
+              if (!thread) return <NotFound />;
+
+              const foundTurn = thread.turns.find(turn => turn.id === turnId);
 
               return (
-                <Show when={foundSnippet} fallback={<NotFound />}>
+                <Show when={foundTurn} fallback={<NotFound />}>
                   <p>
-                    <A href="/">home</A> / <A href={`/${frameId}`}>{frameId}</A>
+                    <A href="/">home</A> / <A href={`/${turnId}`}>{turnId}</A>
                   </p>
-                  <Card frames={foundSnippet!} CAS={CAS} />
+                  <div>Turn details for {foundTurn!.id}</div>
                 </Show>
               );
             }}

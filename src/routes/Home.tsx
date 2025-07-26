@@ -2,18 +2,20 @@ import { Component, For } from "solid-js";
 import { A } from "@solidjs/router";
 
 import { CASStore } from "../store/cas";
-import { Frame } from "../store/stream";
+import { Thread } from "../store/stream";
+import TurnCard from "../TurnCard";
 
-import Card from "../Card";
-
-const Home: Component<{ index: Frame[][]; CAS: CASStore }> = (props) => {
+const Home: Component<{ thread: Thread; CAS: CASStore }> = (props) => {
   return (
     <>
       <p>
-        <A href="/">home</A>
+        <A href="/">home</A> - Thread: {props.thread.head_id}
       </p>
-      <For each={props.index}>
-        {(frames) => <Card frames={frames} CAS={props.CAS} />}
+      <div style="margin-bottom: 1em; padding: 0.5em; background: var(--color-bg-alt); border-radius: 0.25em;">
+        <strong>Options:</strong> {JSON.stringify(props.thread.options)}
+      </div>
+      <For each={props.thread.turns}>
+        {(turn) => <TurnCard turn={turn} CAS={props.CAS} />}
       </For>
     </>
   );

@@ -4,7 +4,40 @@ export type Frame = {
   id: string;
   topic: string;
   hash: string;
-  meta?: Record<string, any>;
+  meta?: {
+    role?: "user" | "assistant" | "system";
+    continues?: string | string[];
+    head?: string; // bookmark
+    cache?: boolean;
+    content_type?: string;
+    type?: "document";
+    options?: Record<string, any>; // delta
+    document_name?: string;
+    file_size?: number;
+    original_path?: string;
+    [key: string]: any;
+  };
+};
+
+export type ContentBlock = 
+  | { type: "text"; text: string; cache_control?: {type: "ephemeral"} }
+  | { type: "tool_use"; name: string; input: any; id?: string }
+  | { type: "tool_result"; content: any; name?: string; tool_use_id?: string }
+  | { type: "document"; source: {type: "base64", media_type: string, data: string}, cache_control?: {type: "ephemeral"} };
+
+export type Turn = {
+  id: string;
+  role: "user" | "assistant" | "system";
+  content: ContentBlock[];
+  timestamp: Date;
+  options: Record<string, any>; // inherited
+  cache: boolean;
+};
+
+export type Thread = {
+  turns: Turn[];
+  head_id: string;
+  options: Record<string, any>; // merged
 };
 
 export function useFrameStream() {

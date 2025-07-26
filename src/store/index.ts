@@ -1,18 +1,15 @@
-import { createEffect, createMemo, createSignal } from "solid-js";
-import { createStore } from "solid-js/store";
+import { createEffect, createSignal } from "solid-js";
 import { Frame } from "./stream";
-
-export type StreamStore = { [key: string]: Frame[] };
+import { useGPTStore } from "./gpt";
+import { CASStore } from "./cas";
 
 type StreamProps = {
   dataSignal: () => Frame | null;
+  CAS: CASStore;
 };
 
-export function useStore({ dataSignal }: StreamProps) {
-  const [frames, setFrames] = createStore<StreamStore>({});
+export function useStore({ dataSignal, CAS }: StreamProps) {
   const [title, setTitle] = createSignal<Frame | null>(null);
-
-  const [thresholdReached, setThresholdReached] = createSignal(false);
 
   createEffect(() => {
     const frame = dataSignal();
@@ -22,26 +19,13 @@ export function useStore({ dataSignal }: StreamProps) {
       setTitle(frame);
       return;
     }
-
-    if (frame.topic === "snippet") {
-      const frameId = frame.meta?.updates ?? frame.id;
-      setFrames(frameId, (existingFrames = []) => [frame, ...existingFrames]);
-    }
-
-    if (frame.topic === "xs.threshold") {
-      setThresholdReached(true);
-    }
   });
 
-  const index = createMemo(() => {
-    if (!thresholdReached()) return undefined;
-    return Object.keys(frames)
-      .sort((a, b) => b.localeCompare(a))
-      .map((id) => frames[id]);
-  });
+  const gptStore = useGPTStore({ dataSignal, CAS });
 
   return {
-    index,
+    currentThread: gptStore.currentThread,
     title,
+    loadingState: gptStore.loadingState,
   };
 }

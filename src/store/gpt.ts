@@ -1,0 +1,213 @@
+import { createEffect, createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
+import { Scru128Id } from "scru128";
+import { Frame, Turn, Thread, ContentBlock } from "./stream";
+import { CASStore } from "./cas";
+
+// Deep merge where source overwrites target (replicates Nu's merge deep)
+function mergeDeep(target: any, source: any): any {
+  if (typeof source !== 'object' || source === null) return source;
+  if (typeof target !== 'object' || target === null) return source;
+  
+  const result = { ...target };
+  for (const key in source) {
+    if (Array.isArray(source[key])) {
+      result[key] = [...source[key]]; // Replace arrays entirely
+    } else if (typeof source[key] === 'object' && source[key] !== null) {
+      result[key] = mergeDeep(target[key] || {}, source[key]);
+    } else {
+      result[key] = source[key];
+    }
+  }
+  return result;
+}
+
+type GPTStore = { [key: string]: Frame };
+
+type GPTStoreProps = {
+  dataSignal: () => Frame | null;
+  CAS: CASStore;
+};
+
+export function useGPTStore({ dataSignal, CAS }: GPTStoreProps) {
+  const [frames, setFrames] = createStore<GPTStore>({});
+  const [currentHeadId, setCurrentHeadId] = createSignal<string | null>(null);
+  const [thresholdReached, setThresholdReached] = createSignal(false);
+  
+  const loadingState = () => {
+    if (!thresholdReached()) return "Waiting for initial data...";
+    if (!currentHeadId()) return "No GPT turns found yet...";
+    return "Building thread...";
+  };
+
+  createEffect(() => {
+    const frame = dataSignal();
+    if (!frame) return;
+
+    // Handle threshold signal
+    if (frame.topic === "xs.threshold") {
+      setThresholdReached(true);
+      return;
+    }
+
+    if (frame.topic !== "gpt.turn") return;
+
+    // Add frame to cache
+    setFrames(frame.id, frame);
+    
+    // Always update to most recent frame - we'll find the real head later
+    setCurrentHeadId(frame.id);
+  });
+
+  // Convert a frame to a turn (replicates frame-to-turn from ctx.nu)
+  const frameToTurn = async (frame: Frame): Promise<Turn | null> => {
+    const meta = frame.meta || {};
+    const role = meta.role || "user";
+    const cache = meta.cache || false;
+    const options_delta = meta.options || {};
+
+    // Fetch content from CAS
+    const content_raw = CAS.get(frame.hash)();
+    if (!content_raw) return null;
+
+    // Parse content based on type
+    let content: ContentBlock[];
+    
+    if (meta.type === "document" && meta.content_type) {
+      // Document type
+      content = [{
+        type: "document",
+        cache_control: cache ? { type: "ephemeral" } : undefined,
+        source: {
+          type: "base64",
+          media_type: meta.content_type,
+          data: btoa(content_raw) // Convert to base64
+        }
+      }];
+    } else if (meta.content_type === "application/json") {
+      // JSON content (structured blocks)
+      try {
+        content = JSON.parse(content_raw);
+      } catch {
+        content = [{ type: "text", text: content_raw }];
+      }
+    } else {
+      // Plain text
+      content = [{
+        type: "text",
+        text: content_raw,
+        cache_control: cache ? { type: "ephemeral" } : undefined
+      }];
+    }
+
+    return {
+      id: frame.id,
+      role: role as "user" | "assistant" | "system",
+      content,
+      timestamp: new Date(Scru128Id.fromString(frame.id).timestamp),
+      options: options_delta,
+      cache
+    };
+  };
+
+  // Find the actual thread head that contains the given frame ID
+  const findThreadHead = (frameId: string): string => {
+    const allFrames = Object.values(frames);
+    
+    // Find all frames that continue from our frameId (directly or indirectly)
+    const findContinuations = (id: string): string[] => {
+      const continuations: string[] = [];
+      for (const frame of allFrames) {
+        const continues = frame.meta?.continues;
+        if (continues) {
+          const continuesFrom = Array.isArray(continues) ? continues : [continues];
+          if (continuesFrom.includes(id)) {
+            continuations.push(frame.id);
+            // Recursively find what continues from this frame
+            continuations.push(...findContinuations(frame.id));
+          }
+        }
+      }
+      return continuations;
+    };
+    
+    const continuations = findContinuations(frameId);
+    
+    // If nothing continues from our frame (directly or indirectly), it's the head
+    if (continuations.length === 0) {
+      return frameId;
+    }
+    
+    // Otherwise, find the most recent continuation
+    const sorted = continuations.sort((a, b) => b.localeCompare(a));
+    return sorted[0];
+  };
+
+  // Follow continues chain to build chronological turn list
+  const idToTurns = async (headId: string): Promise<Turn[]> => {
+    const turns: Turn[] = [];
+    const stack = [headId];
+
+    while (stack.length > 0) {
+      const currentId = stack.shift()!;
+      const frame = frames[currentId];
+      
+      if (!frame) continue;
+
+      const turn = await frameToTurn(frame);
+      if (turn) {
+        turns.unshift(turn); // Prepend for chronological order
+      }
+
+      // Add continues to stack
+      const continues = frame.meta?.continues;
+      if (continues) {
+        if (typeof continues === 'string') {
+          stack.push(continues);
+        } else if (Array.isArray(continues)) {
+          stack.push(...continues);
+        }
+      }
+    }
+
+    return turns;
+  };
+
+  // Resolve full thread context (replicates ctx resolve)
+  const [resolveThread, setResolveThread] = createSignal<Thread | null>(null);
+  
+  createEffect(async () => {
+    const mostRecentId = currentHeadId();
+    const threshold = thresholdReached();
+    
+    // Don't resolve thread until threshold is reached and we have a frame
+    if (!mostRecentId || !threshold) {
+      setResolveThread(null);
+      return;
+    }
+
+    // Find the actual thread head that contains our most recent frame
+    const realHeadId = findThreadHead(mostRecentId);
+    const turns = await idToTurns(realHeadId);
+    
+    // Merge options across all turns in chronological order
+    const mergedOptions = turns.reduce((acc, turn) => {
+      if (Object.keys(turn.options).length > 0) {
+        return mergeDeep(acc, turn.options);
+      }
+      return acc;
+    }, {});
+
+    setResolveThread({
+      turns,
+      head_id: realHeadId,
+      options: mergedOptions
+    });
+  });
+
+  return {
+    currentThread: resolveThread,
+    frames,
+    loadingState
+  };
+}
