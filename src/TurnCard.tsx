@@ -25,8 +25,8 @@ const CardWrapper = styled("div")`
 
 const Content = styled("div")`
   flex: 1;
-  overflow-x: auto;
-  overflow-y: hidden;
+  max-height: 33vh;
+  overflow: auto;
   padding: 0.25em 0.5em;
   overflow-wrap: break-word;
 `;

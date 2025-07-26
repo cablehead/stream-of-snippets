@@ -111,7 +111,7 @@ export function useGPTStore({ dataSignal, CAS }: GPTStoreProps) {
     return sorted[0];
   };
 
-  // Follow continues chain to build chronological turn list
+  // Follow continues chain to build reverse chronological turn list (most recent first)
   const idToTurns = (headId: string): Turn[] => {
     const turns: Turn[] = [];
     const stack = [headId];
@@ -123,7 +123,7 @@ export function useGPTStore({ dataSignal, CAS }: GPTStoreProps) {
       if (!frame) continue;
 
       const turn = frameToTurn(frame);
-      turns.unshift(turn); // Prepend for chronological order (always add, even with placeholder)
+      turns.push(turn); // Append for reverse chronological order (most recent first)
 
       // Add continues to stack
       const continues = frame.meta?.continues;
@@ -157,8 +157,8 @@ export function useGPTStore({ dataSignal, CAS }: GPTStoreProps) {
     
     const turns = idToTurns(realHeadId);
     
-    // Merge options across all turns in chronological order
-    const mergedOptions = turns.reduce((acc, turn) => {
+    // Merge options across all turns in chronological order (reverse the array for merging)
+    const mergedOptions = turns.slice().reverse().reduce((acc, turn) => {
       if (Object.keys(turn.options).length > 0) {
         return mergeDeep(acc, turn.options);
       }
